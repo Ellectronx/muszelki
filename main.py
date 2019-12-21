@@ -7,9 +7,9 @@ import glob
 import re 
 
 
-filename = "3.txt"
+filename = ""
 #url = urlopen("https://s3.zylowski.net/public/input/3.txt")
-urllib.request.urlretrieve("https://s3.zylowski.net/public/input/3.txt", filename)
+#urllib.request.urlretrieve("https://s3.zylowski.net/public/input/3.txt", filename)
 
 
 def download_file(address):
@@ -133,8 +133,11 @@ def count_sentences():
                         data = myfile.read()
 
                 global sentences 
-                sentences = 0
-                sentences = data.count(".") + data.count("!") + data.count("?")
+                #sentences = 0
+                #sentences = data.count(".") + data.count("?")
+                r1 = re.findall('[^.]{1}\.',data)
+                r2 = re.findall('[^?]{1}\?',data)
+                sentences = len(r1) + len(r2)
                 print("Ilość zdań w pliku " ,filename, " to ", str(sentences))
         except FileNotFoundError:
                 print(" ** Nie mogę znaleść pliku ", filename)
