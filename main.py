@@ -4,6 +4,7 @@ from urllib.request import urlopen
 from string import ascii_lowercase
 import os
 import glob
+import re 
 
 
 filename = "3.txt"
@@ -11,14 +12,30 @@ filename = "3.txt"
 urllib.request.urlretrieve("https://s3.zylowski.net/public/input/3.txt", filename)
 
 
-def download_file():
-	urllib.request.urlretrieve("https://s3.zylowski.net/public/input/3.txt", filename)
-
+def download_file(address):
+	global filename
+	filename = "netfile.txt"
+	#urllib.request.urlretrieve("https://s3.zylowski.net/public/input/3.txt", filename)
+	try:
+		urllib.request.urlretrieve(address, filename)
+		print("Plik został pobrany")
+	except Exception:
+		print("Wystąpił problem podczas pobierania pliku")
+	
+def open_file_try(_filename):
+	global filename
+	try:
+		with open(_filename, 'r') as myfile:
+			data = myfile.read()
+			filename = _filename
+			print("Plik instnieje")
+	except Exception:
+		print("Problem z otwarciem pliku lokalnego")
 
 def print_menu():
     print(5 * "\n")
     print(25 * "-", "ANALIZATOR TEKSTÓW", 25 * "-")
-    print("1. Pobierz plik z internetu ")
+    print("1. Wybierz plik wejściowy ")
     print("2. Zlicz liczbę liter w pobranym pliku ")
     print("3. Zlicz liczbę wyrazów w pliku ")
     print("4. Zlicz liczbę znaków interpunkcyjnych w pliku ")        
@@ -27,6 +44,24 @@ def print_menu():
     print("7. Zapisz statystyki z punktów 2-5 do pliku statystyki.txt ")
     print("8. Wyjście z programu ")
     print(70 * "-")
+
+
+def download_file_choice():
+	#global filename
+	while True:
+		user_input = input ("Czy wczytać plik z internetu [T/N]")
+		if user_input == 'T':
+			file_address = input ("Podaj prawidłowy adres pliku z internetu:")
+			while re.match("'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+'", file_address) == False:
+				file_address = input ("Podaj prawidłowy adres pliku z internetu:")
+			download_file(file_address)
+			return
+		elif user_input == 'N':
+			filename = input ("Podaj nazwę pliku lokalnego *.txt:")
+			while re.match('.+\.txt$', filename) == False:
+				filename = input ("Podaj nazwę pliku lokalnego:")
+			open_file_try(filename)
+			return
 
 
 def count_letters():
@@ -159,7 +194,7 @@ def save_stats():
     myfile.close()
 
 
-download_file()
+#download_file()
 
 while True:
 	print_menu()
@@ -180,8 +215,8 @@ while True:
 	#print(choice)
 
 	if choice == 1:
-		print(" Pobieranie plik z internetu...")
-		download_file()
+		#print(" Pobieranie plik z internetu...")
+		download_file_choice()
 	elif choice == 2:
 		count_letters()
 	elif choice == 3:
