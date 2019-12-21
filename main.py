@@ -30,24 +30,30 @@ def print_menu():
 
 
 def count_letters():
-	global letters
-	letters = 0
-	try:
-		with open(filename, 'r') as myfile:
-			data = myfile.read()
-		
-		
-		for x in data:
-			if x.isalpha():
-				letters+=1
+        global letters
+        global letters2
+        letters = 0
+        letters2 = 0
+        try:
+                with open(filename, 'r') as myfile:
+                        data = myfile.read()
+                
+                
+                for x in data:
+                        y = x.lower()
+                        if y == "a" or y == "e" or y == "i" or y == "o" or y == "u" or y == "y":
+                                letters+=1
+                        else:
+                                letters2+=1
 
-		print(" Ilość liter w pliku ",filename," to ", str(letters))
-	except FileNotFoundError:
-		print(" ** Brak pliku ",filename, " **")
-	except Exception:
-		print(" ** Nie mogę otworzyć pliku ",filename)
+                print(" Ilość samogłosek w pliku ",filename," to ", str(letters))
+                print(" Ilość spółgłosek w pliku ",filename," to ", str(letters2))
+        except FileNotFoundError:
+                print(" ** Brak pliku ",filename, " **")
+        except Exception:
+                print(" ** Nie mogę otworzyć pliku ",filename)
 
-		
+                
 def count_words():
 	try:
 		with open(filename, 'r') as myfile:
