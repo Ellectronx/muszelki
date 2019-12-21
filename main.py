@@ -55,18 +55,26 @@ def count_letters():
 
                 
 def count_words():
-	try:
-		with open(filename, 'r') as myfile:
-			data = myfile.read()
+        try:
+                with open(filename, 'r') as myfile:
+                        data = myfile.read()
 
-		global words
-		words = 0
-		words = len(data.split())
-		print("Ilość wyrazów w pliku " ,filename, " to ", str(words))
-	except FileNotFoundError:
-		print(" ** Nie mogę znaleść pliku ", filename)
-	except Exception:
-		print(" ** Nie mogę otworzyć pliku ",filename)
+                array = []
+                array = data.split()
+                global words
+                words = 0
+                global x
+                x = 0
+                for y in array:    
+                        if len(array[x]) > 1:
+                                words+=1
+                        x+=1
+
+                print("Ilość wyrazów w pliku " ,filename, " to ", str(words))
+        except FileNotFoundError:
+                print(" ** Nie mogę znaleść pliku ", filename)
+        except Exception:
+                print(" ** Nie mogę otworzyć pliku ",filename)
 
 
 def count_punctation():
