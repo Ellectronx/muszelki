@@ -50,13 +50,17 @@ def download_file_choice():
 	#global filename
 	while True:
 		user_input = input ("Czy wczytać plik z internetu [T/N]")
-		if user_input == 'T':
+
+		if user_input == 'T' or user_input == 't':
+
 			file_address = input ("Podaj prawidłowy adres pliku z internetu:")
 			while re.match("'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+'", file_address) == False:
 				file_address = input ("Podaj prawidłowy adres pliku z internetu:")
 			download_file(file_address)
 			return
-		elif user_input == 'N':
+
+		elif user_input == 'N' or user_input == 'n':
+
 			filename = input ("Podaj nazwę pliku lokalnego *.txt:")
 			while re.match('.+\.txt$', filename) == False:
 				filename = input ("Podaj nazwę pliku lokalnego:")
@@ -147,16 +151,21 @@ def count_sentences():
 
 def generate_report():
 	try:
-		with open(filename, 'r') as myfile:
-			data = myfile.read()
+            count_sentences()
+            count_words()
+            count_letters()
+            with open(filename, 'r') as myfile:
+                data = myfile.read()
 		
-		for char in ascii_lowercase:
-			x = data.count(char) + data.count(char.upper())
-			print( char.upper(),": ",x)
+            for char in ascii_lowercase:
+                x = data.count(char) + data.count(char.upper())
+                print( char.upper(),": ",x)
+
 	except FileNotFoundError:
 		print(" ** Brak pliku ",filename, " **")
 	except Exception:
 		print(" ** Nie mogę otworzyć pliku ",filename)
+
 def exit():
     fileList = glob.glob('*.txt')
     if len(fileList) is not 0 :
